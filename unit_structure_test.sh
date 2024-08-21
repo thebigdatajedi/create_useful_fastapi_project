@@ -1,31 +1,12 @@
-#!/bin/bash
+#!/bin/zsh
 
-# Check if project name is passed as argument
 if [ -z "$1" ]; then
   echo "Error: No project name provided."
-  echo "Usage: ./test_script.sh <project_name>"
   exit 1
 fi
 
-# Variables
 PROJECT_NAME=$1
-CREATE_SCRIPT="create_useful_fastapi_project.sh"
-CLEANUP_SCRIPT="full_clean_up_script_in_case_others_add_to_script_they_can_easily_test.sh"
-PARENT_DIR=".."
 
-# Copy scripts to the parent directory
-echo "Copying $CREATE_SCRIPT and $CLEANUP_SCRIPT to $PARENT_DIR..."
-cp $CREATE_SCRIPT $PARENT_DIR/
-cp $CLEANUP_SCRIPT $PARENT_DIR/
-
-# Navigate to the parent directory
-cd $PARENT_DIR || { echo "Failed to navigate to parent directory."; exit 1; }
-
-# Run the create project script
-echo "Running $CREATE_SCRIPT..."
-./$CREATE_SCRIPT $PROJECT_NAME
-
-# Check if the directory structure is correct
 echo "Verifying directory and file structure..."
 
 check_structure() {
@@ -73,12 +54,3 @@ for item in "${DIRS_AND_FILES[@]}"; do
 done
 
 echo "Verification completed."
-
-# Optionally, run the cleanup script after testing
-read -p "Do you want to run the cleanup script? (Y/n): " run_cleanup
-if [[ "$run_cleanup" =~ ^[Yy]$ ]] || [[ -z "$run_cleanup" ]]; then
-  echo "Running $CLEANUP_SCRIPT..."
-  ./$CLEANUP_SCRIPT
-fi
-
-echo "Test script completed."

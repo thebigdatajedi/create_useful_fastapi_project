@@ -1,0 +1,35 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      PROJECT_NAME: "github_fastapi_project"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Zsh
+        run: sudo apt-get install -y zsh
+
+      - name: Run Create Script
+        run: |
+          chmod +x create_useful_fastapi_project.sh
+          ./create_useful_fastapi_project.sh $PROJECT_NAME
+
+      - name: Run Test Script
+        run: |
+          chmod +x unit_structure_test.sh
+          ./unit_structure_test.sh $PROJECT_NAME
+
+      - name: Run Cleanup Script
+        run: |
+          chmod +x full_clean_up_script_in_case_others_add_to_script_they_can_easily_test.sh
+          ./full_clean_up_script_in_case_others_add_to_script_they_can_easily_test.sh $PROJECT_NAME
